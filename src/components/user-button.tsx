@@ -25,7 +25,7 @@ export default function UserButton() {
         <UserAvatar src={userImage} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60 p-2" align="end">
-        <div className="flex flex-col justify-center items-center gap-y-3 w-full bg-accent rounded-md mb-2 py-4">
+        <div className="flex flex-col justify-center items-center gap-y-3 w-full bg-secondary rounded-md mb-2 py-4">
           <UserAvatar src={userImage} />
           <span className="text-sm font-semibold mt-3">{userName}</span>
         </div>
