@@ -13,11 +13,13 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  accounts  Account[]
+  sessions  Session[]
+  exercises Exercise[]
+  workouts  Workout[]
 }
 
 model Account {
@@ -45,10 +47,10 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -57,4 +59,66 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Exercise {
+  id          String   @id @default(cuid())
+  name        String
+  userId      String
+  muscleGroup String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutExercises  WorkoutExercise[]
+  templateExercises TemplateExercise[]
+}
+
+model Workout {
+  id       String   @id @default(cuid())
+  name     String
+  date     DateTime
+  userId   String
+  duration Int?
+  kcal     Int?
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutExercises WorkoutExercise[]
+}
+
+model WorkoutSet {
+  id                String @id @default(cuid())
+  reps              Int
+  weight            Float
+  unit              String
+  workoutExerciseId String
+
+  workoutExercise WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
+}
+
+model WorkoutExercise {
+  id         String @id @default(cuid())
+  index      Int
+  exerciseId String
+  workoutId  String
+
+  exercise    Exercise     @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  workout     Workout      @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  workoutSets WorkoutSet[]
+}
+
+model WorkoutTemplate {
+  id   String @id @default(cuid())
+  name String
+
+  templateExercises TemplateExercise[]
+}
+
+model TemplateExercise {
+  id                String @id @default(cuid())
+  exerciseId        String
+  workoutTemplateId String
+
+  exercise        Exercise        @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  workoutTemplate WorkoutTemplate @relation(fields: [workoutTemplateId], references: [id], onDelete: Cascade)
 }
