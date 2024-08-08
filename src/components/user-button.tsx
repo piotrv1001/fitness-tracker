@@ -2,7 +2,6 @@
 
 import { LayoutDashboardIcon, PowerIcon } from "lucide-react";
 import Link from "next/link";
-import { User } from "@prisma/client";
 import { useUser } from "@/hooks/use-user";
 import {
   DropdownMenu,
@@ -13,11 +12,13 @@ import {
 } from "./ui/dropdown-menu";
 import UserAvatar from "./user-avatar";
 import LogoutButton from "./logout-button";
+import ThemeToggle from "./theme-toggle";
 
 export default function UserButton() {
   const user = useUser();
   const userName = user?.name ?? "(Guest User)";
   const userImage = user?.image;
+  
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
@@ -34,6 +35,7 @@ export default function UserButton() {
             Dashboard
           </DropdownMenuItem>
         </Link>
+        <ThemeToggle />
         <DropdownMenuSeparator />
         <LogoutButton>
           <DropdownMenuItem className="p-2">
