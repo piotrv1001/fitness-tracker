@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const newExerciseSchema = z.object({
+export const exerciseSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, {
     message: "Name is required",

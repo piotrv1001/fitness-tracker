@@ -7,10 +7,9 @@ import { Exercise } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const deleteExerciseAction = async (
-  id: string
+  id?: string
 ): Promise<ServerResponse<Exercise>> => {
-  if (!id)
-    return { status: "error", message: "Exercise ID is required" };
+  if (!id) return { status: "error", message: "Exercise ID is required" };
 
   const user = await getCurrentUser();
   if (!user?.id) return { status: "error", message: "Operation not permitted" };

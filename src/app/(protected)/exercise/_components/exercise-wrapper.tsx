@@ -9,7 +9,7 @@ import ExerciseAlertDialog from "./exercise-alert-dialog";
 import { z } from "zod";
 import { createExerciseAction } from "@/actions/exercise/create-exercise-action";
 import { toast } from "@/components/ui/use-toast";
-import { newExerciseSchema } from "@/schemas/new-exercise-schema";
+import { exerciseSchema } from "@/schemas/exercise-schema";
 import { updateExerciseAction } from "@/actions/exercise/update-exercise-action";
 import { deleteExerciseAction } from "@/actions/exercise/delete-exercise-action";
 
@@ -24,7 +24,7 @@ export default function ExercisesWrapper({ exercises }: ExerciseWrapperProps) {
     null
   );
 
-  const addExercise = async (formData: z.infer<typeof newExerciseSchema>) => {
+  const addExercise = async (formData: z.infer<typeof exerciseSchema>) => {
     setShowExerciseDialog(false);
     setSelectedExercise(null);
     const res = await createExerciseAction(formData);
@@ -41,9 +41,7 @@ export default function ExercisesWrapper({ exercises }: ExerciseWrapperProps) {
     }
   };
 
-  const updateExercise = async (
-    formData: z.infer<typeof newExerciseSchema>
-  ) => {
+  const updateExercise = async (formData: z.infer<typeof exerciseSchema>) => {
     setShowExerciseDialog(false);
     setSelectedExercise(null);
     const res = await updateExerciseAction(formData);
@@ -62,15 +60,7 @@ export default function ExercisesWrapper({ exercises }: ExerciseWrapperProps) {
 
   const deleteExercise = async () => {
     setShowAlertDialog(false);
-    const id = selectedExercise?.id;
-    if (!id) {
-      toast({
-        variant: "error",
-        description: "Exercise ID is required",
-      });
-      return;
-    }
-    const res = await deleteExerciseAction(id);
+    const res = await deleteExerciseAction(selectedExercise?.id);
     if (res.status === "error") {
       toast({
         variant: "error",

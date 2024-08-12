@@ -14,19 +14,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Exercise } from "@prisma/client";
-import { newExerciseSchema } from "@/schemas/new-exercise-schema";
+import { exerciseSchema } from "@/schemas/exercise-schema";
 
 type ExerciseFormProps = {
   exercise?: Exercise | null;
-  onSubmit: (values: z.infer<typeof newExerciseSchema>) => void;
+  onSubmit: (values: z.infer<typeof exerciseSchema>) => void;
 };
 
 export default function ExerciseForm({
   exercise,
   onSubmit,
 }: ExerciseFormProps) {
-  const form = useForm<z.infer<typeof newExerciseSchema>>({
-    resolver: zodResolver(newExerciseSchema),
+  const form = useForm<z.infer<typeof exerciseSchema>>({
+    resolver: zodResolver(exerciseSchema),
     defaultValues: exercise
       ? {
           id: exercise.id,
@@ -39,7 +39,7 @@ export default function ExerciseForm({
         },
   });
 
-  const handleSubmit = (values: z.infer<typeof newExerciseSchema>) => {
+  const handleSubmit = (values: z.infer<typeof exerciseSchema>) => {
     onSubmit(values);
   };
 

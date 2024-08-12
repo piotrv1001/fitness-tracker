@@ -1,6 +1,6 @@
 import DialogWrapper from "@/components/dialog-wrapper";
 import ExerciseForm from "./exercise-form";
-import { newExerciseSchema } from "@/schemas/new-exercise-schema";
+import { exerciseSchema } from "@/schemas/exercise-schema";
 import { Exercise } from "@prisma/client";
 import { z } from "zod";
 
@@ -8,7 +8,7 @@ type ExerciseDialogProps = {
   exercise?: Exercise | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (values: z.infer<typeof newExerciseSchema>) => void;
+  onSubmit: (values: z.infer<typeof exerciseSchema>) => void;
 };
 
 export default function ExerciseDialog({

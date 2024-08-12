@@ -2,16 +2,17 @@
 
 import { ExerciseRepo, PartialExercise } from "@/data/repo/exercise-repo";
 import { getCurrentUser } from "@/lib/utils";
-import { newExerciseSchema } from "@/schemas/new-exercise-schema";
+import { exerciseSchema } from "@/schemas/exercise-schema";
 import { ServerResponse } from "@/types/server-response";
 import { Exercise } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const updateExerciseAction = async (
-  formData: z.infer<typeof newExerciseSchema>
+  formData: z.infer<typeof exerciseSchema>
 ): Promise<ServerResponse<Exercise>> => {
-  if(!formData.id) return { status: "error", message: "Exercise ID is required" };
+  if (!formData.id)
+    return { status: "error", message: "Exercise ID is required" };
 
   const user = await getCurrentUser();
   if (!user?.id) return { status: "error", message: "Operation not permitted" };
